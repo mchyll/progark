@@ -2,6 +2,7 @@ package no.mchyll.progark.exercise1.task4.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+
 import no.mchyll.progark.exercise1.task4.Game;
 
 public class DesktopLauncher {
