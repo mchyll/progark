@@ -8,7 +8,7 @@ import no.mchyll.progark.exercise2.pong.sprites.Ball;
 import no.mchyll.progark.exercise2.pong.sprites.PaddlePlayer;
 import no.mchyll.progark.exercise2.pong.sprites.PaddleComputer;
 
-public class PlayState {
+public class PlayState extends State {
     private static final int WINNING_SCORE = 21;
 
     private Ball ball;
@@ -20,13 +20,11 @@ public class PlayState {
 
     private BitmapFont bitmapFont;
 
-    private String winnerString = "";
-    private boolean gameFinished = false;
-
     public PlayState() {
         ball = new Ball();
-        paddle1 = new PaddlePlayer(0, Game.HEIGHT/2);
-        paddle2 = new PaddleComputer(Game.WIDTH, Game.HEIGHT/2, ball);
+        paddle1 = new PaddlePlayer(0, Game.getInstance().getHeight() / 2);
+        paddle2 = new PaddleComputer(Game.getInstance().getWidth(),
+                Game.getInstance().getHeight() / 2, ball);
 
         bitmapFont = new BitmapFont();
         bitmapFont.setColor(Color.WHITE);
@@ -37,31 +35,30 @@ public class PlayState {
         paddle2.handleInput();
     }
 
+    @Override
     public void update(float deltaTime) {
         handleInput();
         ball.update(deltaTime);
         handlePotentialCollision();
-        if (gameFinished) return;
 
         if (ball.getPosition().x <= 0) {
             score2++;
             ball.reset();
         }
-        if (ball.getPosition().x >= Game.WIDTH) {
+        if (ball.getPosition().x >= Game.getInstance().getWidth()) {
             score1++;
             ball.reset();
         }
 
         if (score1 >= WINNING_SCORE) {
-            winnerString = "Player wins the game!";
-            gameFinished = true;
+            GameStateManager.getInstance().setState(new GameOverState("Player wins the game!"));
         }
         if (score2 >= WINNING_SCORE) {
-            winnerString = "Computer wins the game!";
-            gameFinished = true;
+            GameStateManager.getInstance().setState(new GameOverState("Computer wins the game!"));
         }
     }
 
+    @Override
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.begin();
         spriteBatch.draw(ball.getTexture(), ball.getPosition().x, ball.getPosition().y, 30, 30);
@@ -77,20 +74,18 @@ public class PlayState {
                 paddle2.getTexture().getWidth() / paddle2.getPaddleResize(),
                 paddle2.getTexture().getHeight() / paddle2.getPaddleResize());
 
+        int width = Game.getInstance().getWidth();
+        int height = Game.getInstance().getHeight();
+
         bitmapFont.draw(spriteBatch,
                 "" + score1,
                 5,
-                Game.HEIGHT - 5);
+                height - 5);
 
         bitmapFont.draw(spriteBatch,
                 "" + score2,
-                Game.WIDTH - 5,
-                Game.HEIGHT - 5);
-
-        bitmapFont.draw(spriteBatch,
-                winnerString,
-                Game.WIDTH/2 - 50,
-                Game.HEIGHT/2);
+                width - 5,
+                height - 5);
 
         spriteBatch.end();
     }

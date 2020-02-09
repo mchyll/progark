@@ -12,10 +12,10 @@ public class PaddlePlayer extends Paddle {
 
     @Override
     public void movePaddle() {
-        float dy = position.y - (Game.HEIGHT - Gdx.input.getY());
+        float dy = position.y - (Game.getInstance().getHeight() - Gdx.input.getY());
 
         // Up
-        if (dy < -3 && position.y < Game.HEIGHT - ROOF_MARGIN) {
+        if (dy < -3 && position.y < Game.getInstance().getHeight() - ROOF_MARGIN) {
             position.y += 5;
         }
         // Down

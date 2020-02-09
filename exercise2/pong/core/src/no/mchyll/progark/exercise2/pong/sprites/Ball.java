@@ -7,7 +7,9 @@ import com.badlogic.gdx.math.Vector3;
 import no.mchyll.progark.exercise2.pong.Game;
 
 public class Ball {
-    private final Vector3 START_POSITION = new Vector3(Game.WIDTH / 2, Game.HEIGHT / 2, 0);
+    private final Vector3 START_POSITION = new Vector3(
+            Game.getInstance().getWidth() / 2,
+            Game.getInstance().getHeight() / 2, 0);
     private final Vector3 START_VELOCITY = new Vector3(-5, 2, 0);
 
     private Texture texture;
@@ -45,7 +47,7 @@ public class Ball {
     }
 
     private boolean shouldBounceY() {
-        return (position.y < 0 || position.y > Game.HEIGHT);
+        return (position.y < 0 || position.y > Game.getInstance().getHeight());
     }
 
     public Texture getTexture() {

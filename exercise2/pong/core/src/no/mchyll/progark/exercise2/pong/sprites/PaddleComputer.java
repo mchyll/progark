@@ -16,9 +16,9 @@ public class PaddleComputer extends Paddle {
         float dy = position.y - ball.getPosition().y;
 
         // Only move when ball is on CPU's side
-        if (ball.getPosition().x >= Game.WIDTH / 2) {
+        if (ball.getPosition().x >= Game.getInstance().getWidth() / 2) {
             // Up
-            if (dy < -2 && position.y < Game.HEIGHT - ROOF_MARGIN) {
+            if (dy < -2 && position.y < Game.getInstance().getWidth() - ROOF_MARGIN) {
                 position.y += 3;
             }
             // Down
